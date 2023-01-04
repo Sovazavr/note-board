@@ -1,23 +1,15 @@
-import logo from './logo.svg';
+import {useState} from "react";
 import './App.css';
 
 function App() {
+  const [opened, setOpened]=useState(false)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="mySidenav" className={opened ? "MenuOpen" : "MenuClose"}>
+        <button onClick={()=>setOpened(prev=>!prev)} className={opened ? "closeButton" : "openButton"}>&lt;</button>
+      </div>
+      <div className="Block">block</div>
     </div>
   );
 }
