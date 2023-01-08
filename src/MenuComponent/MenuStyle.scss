@@ -59,12 +59,19 @@
   .MenuOpen{
     @extend .Menu;
     width: 15vw;
-    
+    .navigateBlock{
+      
+      animation: slide 1s ease-in reverse;
+    }
   }
   .MenuClose{
     @extend .Menu;
     width: 2vw;
     .textBlock{
+      display: none;
+      animation: slide 0.3s ease-in ;
+    }
+    .navigateBlock{
       display: none;
       animation: slide 0.3s ease-in ;
     }
@@ -92,4 +99,21 @@
       
     
     
+  }
+  .navigateBlockWrapper{
+    display: flex;
+    width: 95%;
+    align-items: center;
+  }
+  .navigateBlock{
+    @extend .navigateBlockWrapper;
+    justify-content: flex-start;
+    div{
+      margin-left: 5%;
+      svg{
+        cursor: pointer;
+       
+      }
+    }
+    margin-left: 5%;
   }
