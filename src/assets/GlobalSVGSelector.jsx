@@ -29,6 +29,32 @@ const GlobalSVGSelector = ({ type }) => {
                 </svg>
 
             )
+        case "reload":
+            return (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1206_777)">
+                        <path d="M11 9L13 8.5L13.5 10.5" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M13 8.5C12.5558 9.75861 11.749 10.8576 10.6813 11.6584C9.61353 12.4592 8.33262 12.926 6.99999 13C5.7681 13.0002 4.566 12.6213 3.55697 11.9146C2.54794 11.2079 1.78088 10.2078 1.35999 9.05" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3 5L1 5.5L0.5 3.5" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M1 5.5C1.84 3.2 4.42 1 7 1C8.23789 1.00348 9.4444 1.38976 10.4541 2.10588C11.4639 2.822 12.2274 3.8329 12.64 5" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1206_777">
+                            <rect width="14" height="14" fill="white" />
+                        </clipPath>
+                    </defs>
+                </svg>
+
+            )
+        case "arrow":
+            return (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.71002 0.5L11.85 6.65C11.8979 6.69489 11.936 6.74911 11.962 6.80931C11.9881 6.8695 12.0015 6.9344 12.0015 7C12.0015 7.0656 11.9881 7.1305 11.962 7.19069C11.936 7.25089 11.8979 7.30511 11.85 7.35L5.71002 13.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 0.5V13.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                
+
+            )
         default:
             break;
     }

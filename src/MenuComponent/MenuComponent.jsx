@@ -11,14 +11,17 @@ const MenuComponent = () => {
     <div id="mySidenav" className={opened ? "MenuOpen" : "MenuClose"}>
       <div className='navigateBlockWrapper'>
         <div className='navigateBlock'>
-          <div>
+          <div title='Создать файл'>
             <GlobalSVGSelector type="add_file" />
           </div>
-          <div>
+          <div title='Создать папку'>
             <GlobalSVGSelector type="add_folder" />
           </div>
+          <div title='Обновить'>
+            <GlobalSVGSelector type="reload" />
+          </div>
         </div>
-        <button onClick={() => setOpened(prev => !prev)} className={opened ? "closeButton" : "openButton"}>&lt;</button>
+        <button onClick={() => setOpened(prev => !prev)} className={opened ? "closeButton" : "openButton"}><GlobalSVGSelector type="arrow"/></button>
       </div>
       <div className="textBlock">
         <div>text 1</div>
