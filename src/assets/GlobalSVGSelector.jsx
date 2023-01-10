@@ -49,10 +49,25 @@ const GlobalSVGSelector = ({ type }) => {
         case "arrow":
             return (
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5.71002 0.5L11.85 6.65C11.8979 6.69489 11.936 6.74911 11.962 6.80931C11.9881 6.8695 12.0015 6.9344 12.0015 7C12.0015 7.0656 11.9881 7.1305 11.962 7.19069C11.936 7.25089 11.8979 7.30511 11.85 7.35L5.71002 13.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2 0.5V13.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5.71002 0.5L11.85 6.65C11.8979 6.69489 11.936 6.74911 11.962 6.80931C11.9881 6.8695 12.0015 6.9344 12.0015 7C12.0015 7.0656 11.9881 7.1305 11.962 7.19069C11.936 7.25089 11.8979 7.30511 11.85 7.35L5.71002 13.5" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M2 0.5V13.5" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                
+
+
+            )
+        case "close":
+            return (
+                <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1206_1621)">
+                        <path d="M13.5 1.44287L0.5 14.4429" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M0.5 1.44287L13.5 14.4429" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1206_1621">
+                            <rect width="14" height="14" fill="white" transform="translate(0 0.942871)" />
+                        </clipPath>
+                    </defs>
+                </svg>
 
             )
         default:

@@ -82,8 +82,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 80%;
-  div {
+  width: 90%;
+  .elementWrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .element {
+    width: 80%;
     &:hover {
       cursor: pointer;
       animation: coloring 0.5s ease-in reverse forwards;
@@ -97,6 +103,15 @@
     margin-bottom: 5px;
     animation: slide 0.3s ease-in reverse;
   }
+  .close{
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    &:hover{
+      background-color: #35303d;
+    }
+  }
+
   input {
     &:focus {
       border: none;

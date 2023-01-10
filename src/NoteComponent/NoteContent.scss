@@ -1,0 +1,35 @@
+.wrapperContent{
+    width: 70vw;
+    height: 100%;
+}
+.headerContent{
+    display: flex;
+    background-color: #241B2F;
+    margin-bottom: 2vw;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 40px;
+    padding: 5px;
+    color: #a7a4a4;
+}
+.closeContent{
+
+}
+
+.nameContent{
+    margin-left: 2%;
+}
+
+.textContent{
+    width: 90%;
+    height: 80%;
+    background-color: #6C5F7D;
+    border: none;
+    resize: none;
+    color: #a7a4a4;
+    font-size: large;
+    &:focus {
+        border: none;
+        outline:none;
+      }
+}

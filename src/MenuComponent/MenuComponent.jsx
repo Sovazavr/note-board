@@ -1,9 +1,11 @@
 import React from 'react'
 import "./MenuStyle.scss"
-import { useState } from "react";
+import { useState} from "react";
 import GlobalSVGSelector from '../assets/GlobalSVGSelector';
+import ListElement from './ListElement';
 
-const MenuComponent = () => {
+
+const MenuComponent = ({ setSelected }) => {
   const [create, setCreate] = useState(false)
   const [opened, setOpened] = useState(false)
   const [valueInput, setValueInput] = useState("")
@@ -16,8 +18,27 @@ const MenuComponent = () => {
   }
   const onBlurInput = () => {
     setCreate(false)
-    if (valueInput) { setArrDoc([arrDoc, valueInput]) }
+    if (valueInput) {
+      setArrDoc([...arrDoc, { name: valueInput, content: "" }])
+      setValueInput('')
+
+    }
   }
+
+  const enterKeyDown = (e) => {
+    if (e.keyCode == 13) {
+      onBlurInput()
+    }
+  }
+
+  const handlechange = (el) => {
+    setSelected(el)
+  }
+
+  const deleteElement=(el)=>{
+    setArrDoc(arrDoc.filter(elem=>elem.name!==el.name))
+  }
+
   return (
     <div id="mySidenav" className={opened ? "MenuOpen" : "MenuClose"}>
       <div className='navigateBlockWrapper'>
@@ -38,11 +59,15 @@ const MenuComponent = () => {
       </div>
       <div className="textBlock">
         {create
-          ? <input type="text" autoFocus onBlur={onBlurInput} value={valueInput} onChange={onChangeInput} />
-
-          : <></>
+          ? <>
+            <input type="text" autoFocus onBlur={onBlurInput} value={valueInput} onChange={onChangeInput} onKeyDown={enterKeyDown} />
+            {arrDoc.map(el => <ListElement el={el} handlechange={handlechange} deleteElement={deleteElement}/>)}
+          </>
+          : <>
+            {arrDoc.map(el => <ListElement el={el} handlechange={handlechange} deleteElement={deleteElement}/>)}
+          </>
         }
-        {arrDoc.map(el=> <div>{el}</div>)}
+
       </div>
     </div>
   )
