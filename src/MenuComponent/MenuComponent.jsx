@@ -5,11 +5,11 @@ import GlobalSVGSelector from '../assets/GlobalSVGSelector';
 import ListElement from './ListElement';
 
 
-const MenuComponent = ({ setSelected }) => {
+const MenuComponent = ({setStorage, setSelected, arrDoc, setArrDoc }) => {
   const [create, setCreate] = useState(false)
   const [opened, setOpened] = useState(false)
   const [valueInput, setValueInput] = useState("")
-  const [arrDoc, setArrDoc] = useState([])
+  
 
 
   const onChangeInput = (e) => {
@@ -21,7 +21,7 @@ const MenuComponent = ({ setSelected }) => {
     if (valueInput) {
       setArrDoc([...arrDoc, { name: valueInput, content: "" }])
       setValueInput('')
-
+      setStorage(arrDoc)
     }
   }
 
@@ -37,6 +37,10 @@ const MenuComponent = ({ setSelected }) => {
 
   const deleteElement=(el)=>{
     setArrDoc(arrDoc.filter(elem=>elem.name!==el.name))
+    if(arrDoc.length===0){
+      localStorage.setItem('arrDoc', JSON.stringify(arrDoc));
+    }
+    setSelected({})
   }
 
   return (
