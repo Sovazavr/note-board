@@ -5,7 +5,7 @@ import GlobalSVGSelector from '../assets/GlobalSVGSelector';
 import ListElement from './ListElement';
 
 
-const MenuComponent = ({setStorage, setSelected, arrDoc, setArrDoc }) => {
+const MenuComponent = ({setStorage, getStorage, setSelected, arrDoc, setArrDoc}) => {
   const [create, setCreate] = useState(false)
   const [opened, setOpened] = useState(false)
   const [valueInput, setValueInput] = useState("")
@@ -22,6 +22,7 @@ const MenuComponent = ({setStorage, setSelected, arrDoc, setArrDoc }) => {
       setArrDoc([...arrDoc, { name: valueInput, content: "" }])
       setValueInput('')
       setStorage(arrDoc)
+      
     }
   }
 
@@ -37,10 +38,12 @@ const MenuComponent = ({setStorage, setSelected, arrDoc, setArrDoc }) => {
 
   const deleteElement=(el)=>{
     setArrDoc(arrDoc.filter(elem=>elem.name!==el.name))
-    if(arrDoc.length===0){
-      localStorage.setItem('arrDoc', JSON.stringify(arrDoc));
-    }
+    
     setSelected({})
+  }
+
+  const reloadStorage=()=>{
+    getStorage()
   }
 
   return (
@@ -53,7 +56,7 @@ const MenuComponent = ({setStorage, setSelected, arrDoc, setArrDoc }) => {
           <div title='Создать папку'>
             <GlobalSVGSelector type="add_folder" />
           </div>
-          <div title='Обновить'>
+          <div title='Обновить' onClick={reloadStorage}>
             <GlobalSVGSelector type="reload" />
           </div>
         </div>

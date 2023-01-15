@@ -8,41 +8,40 @@ function App() {
   const [selected, setSelected] = useState({})
   const [arrDoc, setArrDoc] = useState([])
   //Добавить проверку на удаление последнего элемента
+  
 
 
-
-  useEffect(() => {
-    if (arrDoc.length !== 0) {
+  let firstRender = useRef(true)
+  useLayoutEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false
+      const arrDocL = JSON.parse(localStorage.getItem('arrDoc'));
+      if (arrDocL) {
+        setArrDoc(arrDocL);
+      }
+    } else {
       localStorage.setItem('arrDoc', JSON.stringify(arrDoc));
     }
+  }, [arrDoc, selected])
 
-  }, [arrDoc]);
-
-  useEffect(() => {
-
-    const arrDocL = JSON.parse(localStorage.getItem('arrDoc'));
-    if (arrDocL) {
-      setArrDoc(arrDocL);
-
-    }
-  }, []);
+ 
 
   const setStorage = () => {
     localStorage.setItem('arrDoc', arrDoc)
   }
 
   const getStorage = () => {
-    if (!!localStorage.getItem('arrDoc')) {
-      setArrDoc(localStorage.getItem('arrDoc'))
-    }
-    console.log(localStorage.getItem('arrDoc'));
+    const arrDocL = JSON.parse(localStorage.getItem('arrDoc'));
+      if (arrDocL) {
+        setArrDoc(arrDocL);
+      }
   }
 
 
 
   return (
     <div className="App">
-      <MenuComponent setStorage={setStorage} setSelected={setSelected} arrDoc={arrDoc} setArrDoc={setArrDoc} />
+      <MenuComponent setStorage={setStorage} getStorage={getStorage} setSelected={setSelected} arrDoc={arrDoc} setArrDoc={setArrDoc} />
 
       <div className="Block" >
         {Object.entries(selected).length === 0 ? <></> : <NoteContent arrDoc={arrDoc} setArrDoc={setArrDoc} setSelected={setSelected} selected={selected} />}
