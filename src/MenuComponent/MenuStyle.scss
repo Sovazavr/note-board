@@ -88,6 +88,21 @@
     justify-content: space-between;
     align-items: baseline;
   }
+  .elementFolder{
+    width: 80%;
+    &:hover {
+      cursor: pointer;
+      
+    }
+    border: none;
+    color: #241B2F;
+    background-color: #978DC4;
+  }
+  .selectElementFolder{
+    @extend .elementFolder;
+    background-color: #393242;
+    color: #a7a4a4;
+  }
   .element {
     width: 80%;
     &:hover {

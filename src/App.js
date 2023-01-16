@@ -7,7 +7,7 @@ import NoteContent from './NoteComponent/NoteContent';
 function App() {
   const [selected, setSelected] = useState({})
   const [arrDoc, setArrDoc] = useState([])
-  //Добавить проверку на удаление последнего элемента
+  
   
 
 
