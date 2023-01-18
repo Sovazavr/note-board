@@ -55,6 +55,13 @@ const GlobalSVGSelector = ({ type }) => {
 
 
             )
+        case "arrowVertical":
+            return (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.5 3.84998L6.65 9.99998C6.69489 10.0478 6.74911 10.0859 6.80931 10.112C6.8695 10.138 6.9344 10.1515 7 10.1515C7.0656 10.1515 7.1305 10.138 7.19069 10.112C7.25089 10.0859 7.30511 10.0478 7.35 9.99998L13.5 3.84998" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+            )
         case "close":
             return (
                 <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">

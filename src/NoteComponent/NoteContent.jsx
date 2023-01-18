@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import GlobalSVGSelector from '../assets/GlobalSVGSelector'
 import "./NoteContent.scss"
+import ListComponent from './ListComponent'
 
 const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
     const changeText = (e) => {
         setSelected({ name: selected.name, content: e.target.value })
 
     }
+    const [openedListLeft, setOpenedListLeft] = useState(false)
+    const [leftSelected, setLeftSelected] = useState({})
 
     const closeText = () => {
 
@@ -33,7 +36,17 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
                     <GlobalSVGSelector type={"close"} />
                 </div>
             </div>
-            <textarea className='textContent' onChange={changeText} value={selected.content}></textarea>
+            <div className='linkBlock' >
+                <div className='leftLink'>
+                    <input type='text' />
+                    <div className={openedListLeft ? 'arrowVerticalOpen' : 'arrowVertical'} onClick={() => setOpenedListLeft((prev) => !prev)}>
+                        <GlobalSVGSelector type={"arrowVertical"} />
+                    </div>
+                </div>
+
+                {openedListLeft ? <ListComponent arrDoc={arrDoc}/> : <></>}
+            </div>
+            <textarea className='textContent' onChange={changeText} value={selected.content} ></textarea>
         </div>
     )
 }
