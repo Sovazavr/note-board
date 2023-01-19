@@ -1,4 +1,5 @@
 import React from 'react'
+import "./NoteContent.scss"
 
 const ListComponent = ({ arrDoc }) => {
     return (
@@ -6,9 +7,12 @@ const ListComponent = ({ arrDoc }) => {
             {
                 arrDoc.map((obj) => {
                     return (
-                        <div>
-                            {obj.name}
-                        </div>
+                        <>
+                            <div className='listElement'>
+                                {obj.name}
+                            </div>
+                            
+                        </>
                     )
                 })
             }

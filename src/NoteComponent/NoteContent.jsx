@@ -44,7 +44,7 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
                     </div>
                 </div>
 
-                {openedListLeft ? <ListComponent arrDoc={arrDoc}/> : <></>}
+                {openedListLeft ? <ListComponent arrDoc={arrDoc.filter(e=>e.name!==selected.name)}/> : <></>}
             </div>
             <textarea className='textContent' onChange={changeText} value={selected.content} ></textarea>
         </div>

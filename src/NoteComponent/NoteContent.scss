@@ -23,10 +23,26 @@
     justify-content: center;
     width: 90%;
     margin: 0 0 10px 0;
+    
 }
 .listWrapper {
     position: absolute;
+    margin-top: 25px;
+    background-color: rgba($color: #262335, $alpha: 0.5);
+    padding: 10px;
+    border-radius: 5px;
 }
+.listElement{
+    font-size: large;
+    color: #a7a4a4;
+    cursor: pointer;
+    border: 1px solid #241b2f;
+    border-radius: 5px;
+    margin-bottom: 2px;
+    padding: 5px;
+}
+
+
 .headerContent {
     display: flex;
     background-color: #241b2f;
