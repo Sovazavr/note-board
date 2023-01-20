@@ -4,6 +4,17 @@ import "./NoteContent.scss"
 import ListComponent from './ListComponent'
 
 const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
+
+    const [valueInput, setValueInput] = useState('')
+    const [filterArr, setFilterArr] = useState(arrDoc.filter(e => e.name != selected.name))
+
+    const handleInput = (e) => {
+
+        setOpenedListLeft(true)
+        setValueInput(e.target.value)
+        setFilterArr(arrDoc.filter(e => e.name != selected.name && e.name.toLowerCase().indexOf(valueInput.toLowerCase()) !== -1))
+    }
+
     const changeText = (e) => {
         setSelected({ name: selected.name, content: e.target.value })
 
@@ -38,13 +49,14 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
             </div>
             <div className='linkBlock' >
                 <div className='leftLink'>
-                    <input type='text' />
+                    <input type='text' value={valueInput} onChange={handleInput} onBlur={() => setOpenedListLeft(false)} />
                     <div className={openedListLeft ? 'arrowVerticalOpen' : 'arrowVertical'} onClick={() => setOpenedListLeft((prev) => !prev)}>
                         <GlobalSVGSelector type={"arrowVertical"} />
                     </div>
+                   
                 </div>
 
-                {openedListLeft ? <ListComponent arrDoc={arrDoc.filter(e=>e.name!==selected.name)}/> : <></>}
+                {openedListLeft ? <ListComponent arrDoc={filterArr} setLeftSelected={setLeftSelected} /> : <></>}
             </div>
             <textarea className='textContent' onChange={changeText} value={selected.content} ></textarea>
         </div>
