@@ -1,17 +1,23 @@
 import React from 'react'
 import "./NoteContent.scss"
 
-const ListComponent = ({ arrDoc, setLeftSelected }) => {
+const ListComponent = ({ arrDoc, setParent, setOpenedListLeft}) => {
+
+    const handleElement=(obj)=>{
+        setParent(obj)
+        setOpenedListLeft(false)
+    }
+
     return (
         <div className='listWrapper'>
             {
                 arrDoc.map((obj) => {
                     return (
                         <>
-                            <div className='listElement' onClick={()=>setLeftSelected(obj)}>
+                            <div className='listElement' onClick={() => handleElement(obj)}>
                                 {obj.name}
                             </div>
-                            
+
                         </>
                     )
                 })

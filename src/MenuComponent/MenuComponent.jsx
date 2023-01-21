@@ -30,7 +30,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc 
         setArrDoc(arrDoc)
       }
       else {
-        setArrDoc([...arrDoc, { name: valueInput, content: "" }])
+        setArrDoc([...arrDoc, { name: valueInput, content: "" , status: 'file', parent: {name : ''}}])
       }
 
       setValueInput('')
@@ -40,7 +40,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc 
   const onBlurInputFolder = () => {
     setCreateFolder(false)
     if (valueInput) {
-      setArrDoc([...arrDoc, { folderName: valueInput.trim(), file: [] }])
+      setArrDoc([...arrDoc, { folderName: valueInput.trim(), file: [] , status: 'folder'}])
       setValueInput('')
       setStorage(arrDoc)
     }
