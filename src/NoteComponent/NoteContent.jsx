@@ -7,6 +7,8 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
 
     const [valueInput, setValueInput] = useState('')
     const [filterArr, setFilterArr] = useState(arrDoc.filter(e => e.name != selected.name))
+    const [openedListLeft, setOpenedListLeft] = useState(false)
+
 
     useEffect(() => {
         setFilterArr(arrDoc.filter(e => e.name != selected.name))
@@ -23,16 +25,30 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
         setSelected({ name: selected.name, content: e.target.value })
 
     }
-    const [openedListLeft, setOpenedListLeft] = useState(false)
-    const [leftSelected, setLeftSelected] = useState({})
 
-    const setParent=(obj)=>{
-        setLeftSelected(obj)
-        arrDoc.map(e=>{
-            if(e.name==selected.name) {
-                e.parent.name=leftSelected.name
-            }
-        })
+
+    const setParent = (obj) => {
+        if (obj === 'Root') {
+            arrDoc.map(e => {
+                if (e.name == selected.name) {
+                    e.parent.name = 'Root'
+
+                }
+            })
+        } else {
+            arrDoc.map(e => {
+                if (e.name == selected.name) {
+                    e.parent.name = obj.name
+                    console.log(obj.name);
+                }
+            })
+            arrDoc.map(e => {
+                if (e.name == obj.name) {
+                    obj.children.push({ name: selected.name })
+                }
+            })
+        }
+
         setArrDoc(arrDoc)
         console.log('ARR: ', arrDoc);
     }
@@ -53,6 +69,13 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
         setSelected({})
         setArrDoc(arrDoc)
     }
+
+
+    const handleElement = (obj) => {
+        setParent(obj)
+        setOpenedListLeft(false)
+    }
+
     return (
         <div className='wrapperContent'>
             <div className='headerContent'>
@@ -67,10 +90,20 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
                     <div className={openedListLeft ? 'arrowVerticalOpen' : 'arrowVertical'} onClick={() => setOpenedListLeft((prev) => !prev)}>
                         <GlobalSVGSelector type={"arrowVertical"} />
                     </div>
-                   
+
                 </div>
 
-                {openedListLeft ? <ListComponent arrDoc={filterArr} setParent={setParent} setOpenedListLeft={setOpenedListLeft}/> : <></>}
+                {openedListLeft ? <div className='listWrapper'> {arrDoc.filter(e => e.name != selected.name).map(e => {
+                    return (
+                        <div className='listElement' onClick={() => handleElement(e)}>
+                            {e.name}
+                        </div>
+                    )
+                })}</div>
+                    // < ListComponent arrDoc={filterArr} setParent={setParent} setOpenedListLeft={setOpenedListLeft} /> 
+                    : <></>
+                }
+
             </div>
             <textarea className='textContent' onChange={changeText} value={selected.content} ></textarea>
         </div>

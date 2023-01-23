@@ -77,6 +77,24 @@ const GlobalSVGSelector = ({ type }) => {
                 </svg>
 
             )
+        case "tree":
+            return (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1206_758)">
+                        <path d="M2.5 9C3.60457 9 4.5 8.10457 4.5 7C4.5 5.89543 3.60457 5 2.5 5C1.39543 5 0.5 5.89543 0.5 7C0.5 8.10457 1.39543 9 2.5 9Z" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M11.5 4.5C12.6046 4.5 13.5 3.60457 13.5 2.5C13.5 1.39543 12.6046 0.5 11.5 0.5C10.3954 0.5 9.5 1.39543 9.5 2.5C9.5 3.60457 10.3954 4.5 11.5 4.5Z" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M11.5 13.5C12.6046 13.5 13.5 12.6046 13.5 11.5C13.5 10.3954 12.6046 9.5 11.5 9.5C10.3954 9.5 9.5 10.3954 9.5 11.5C9.5 12.6046 10.3954 13.5 11.5 13.5Z" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3.71002 5.40998L9.56002 2.97998" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3.71002 8.59003L9.56002 11.02" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1206_758">
+                            <rect width="14" height="14" fill="white" />
+                        </clipPath>
+                    </defs>
+                </svg>
+
+            )
         default:
             break;
     }
