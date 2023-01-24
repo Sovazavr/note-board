@@ -26,7 +26,7 @@ function App() {
   }, [arrDoc, selected])
 
 
-  
+
 
   const setStorage = () => {
     localStorage.setItem('arrDoc', arrDoc)
@@ -48,8 +48,11 @@ function App() {
       <div className="Block" >
         {Object.entries(selected).length === 0 ? <></> : <NoteContent arrDoc={arrDoc} setArrDoc={setArrDoc} setSelected={setSelected} selected={selected} />}
         {graph ? <Tree data={data}
-          height={400}
-          width={400} />
+          svgProps={{
+            className: 'custom'
+          }}
+          height={500}
+          width={1200} />
           : <></>
         }
       </div>
