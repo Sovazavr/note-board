@@ -10,7 +10,7 @@ function App() {
   const [arrDoc, setArrDoc] = useState([])
   const [data, setData] = useState({})
   const [graph, setGraph] = useState(false)
-
+  const [selectedFolder, setSelectedFolder] = useState({})
 
   let firstRender = useRef(true)
   useLayoutEffect(() => {
@@ -43,10 +43,20 @@ function App() {
 
   return (
     <div className="App">
-      <MenuComponent data={data} setGraph={setGraph} setData={setData} setStorage={setStorage} getStorage={getStorage} setSelected={setSelected} arrDoc={arrDoc} setArrDoc={setArrDoc} />
+      <MenuComponent
+        selectedFolder={selectedFolder}
+        setSelectedFolder={setSelectedFolder}
+        data={data}
+        setGraph={setGraph}
+        setData={setData}
+        setStorage={setStorage}
+        getStorage={getStorage}
+        setSelected={setSelected}
+        arrDoc={arrDoc}
+        setArrDoc={setArrDoc} />
 
       <div className="Block" >
-        {Object.entries(selected).length === 0 ? <></> : <NoteContent arrDoc={arrDoc} setArrDoc={setArrDoc} setSelected={setSelected} selected={selected} />}
+        {Object.entries(selected).length === 0 ? <></> : <NoteContent selectedFolder={selectedFolder} arrDoc={arrDoc} setArrDoc={setArrDoc} setSelected={setSelected} selected={selected} />}
         {graph ? <Tree data={data}
           svgProps={{
             className: 'custom'

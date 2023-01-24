@@ -6,24 +6,47 @@ import ListElement from './ListElement';
 import * as d3 from "d3";
 
 
-const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc, setData, setGraph, data }) => {
+const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc, setData, setGraph, data, setSelectedFolder, selectedFolder }) => {
   const [create, setCreate] = useState(false)
   const [createFolder, setCreateFolder] = useState(false)
 
   const [opened, setOpened] = useState(false)
   const [valueInput, setValueInput] = useState("")
   const [root, setRoot] = useState('')
-  const [selectedFolder, setSelectedFolder] = useState('')
+ 
   const [grouping, setGrouping] = useState({})
 
   useEffect(() => {
-    const filterDoc=arrDoc.filter(e=>e.type=='file')
-    setGrouping(d3.group(filterDoc, d => d.parent.name))
-  }, [arrDoc]);
+
+     if (Object.entries(selectedFolder).length>0) {
+       const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
+       if (filterDoc[0].file.length > 0) {
+         setGrouping(d3.group(filterDoc.file, d => d.parent.name))
+       }
+       console.log('filterDoc ',filterDoc);
+     }
+     else {
+       const filterDoc = arrDoc.filter(e => e.type == 'file')
+       setGrouping(d3.group(filterDoc, d => d.parent.name))
+     }
+
+  }
+
+    , [arrDoc]);
 
   const rootFind = () => {
-    const filterDoc=arrDoc.filter(e=>e.type=='file')
-    setGrouping(d3.group(filterDoc, d => d.parent.name))
+    if (Object.entries(selectedFolder).length>0) {
+      const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
+      if (filterDoc[0].file.length > 0) {
+        setGrouping(d3.group(filterDoc.file, d => d.parent.name))
+      }
+    }
+    else {
+      const filterDoc = arrDoc.filter(e => e.type == 'file')
+      setGrouping(d3.group(filterDoc, d => d.parent.name))
+    }
+    // const filterDoc = arrDoc.filter(e => e.type == 'file')
+    // setGrouping(d3.group(filterDoc, d => d.parent.name))
     let s = []
     let d = {}
     for (let obj of grouping.keys()) {
@@ -76,144 +99,145 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
   }
 
   const treeParse = () => {
-    setSelected(false)
+    setSelected({})
     setGraph(true)
 
     setData(hierarchyCreate(rootFind()))
     console.log('DATA: ', data);
-  
-}
+
+  }
 
 
-const onChangeInput = (e) => {
-  setValueInput(e.target.value)
+  const onChangeInput = (e) => {
+    setValueInput(e.target.value)
+    
+  }
+  const onBlurInput = () => {
+    setCreate(false)
+    if (valueInput) {
+      if (Object.entries(selectedFolder).length>0) {
+        arrDoc.map(el => {
+          if (el.folderName === selectedFolder.folderName) {
+            el.file.push({ name: valueInput.trim(), content: "" })
+          }
+        })
+        setArrDoc(arrDoc)
+      }
+      else {
+        setArrDoc([...arrDoc, { name: valueInput, content: "", status: 'file', parent: { name: '' }, children: [] }])
+      }
 
-}
-const onBlurInput = () => {
-  setCreate(false)
-  if (valueInput) {
-    if (selectedFolder) {
-      arrDoc.map(el => {
-        if (el.folderName === selectedFolder) {
-          el.file.push({ name: valueInput.trim(), content: "" })
-        }
-      })
-      setArrDoc(arrDoc)
+      setValueInput('')
+      setStorage(arrDoc)
     }
-    else {
-      setArrDoc([...arrDoc, { name: valueInput, content: "", status: 'file', parent: { name: '' }, children: [] }])
+  }
+  const onBlurInputFolder = () => {
+    setCreateFolder(false)
+    if (valueInput) {
+      setArrDoc([...arrDoc, { folderName: valueInput.trim(), file: [], status: 'folder' }])
+      setValueInput('')
+      setStorage(arrDoc)
     }
-
-    setValueInput('')
-    setStorage(arrDoc)
   }
-}
-const onBlurInputFolder = () => {
-  setCreateFolder(false)
-  if (valueInput) {
-    setArrDoc([...arrDoc, { folderName: valueInput.trim(), file: [], status: 'folder' }])
-    setValueInput('')
-    setStorage(arrDoc)
+
+  const enterKeyDown = (e) => {
+    if (e.keyCode == 13) {
+      onBlurInput()
+    }
   }
-}
-
-const enterKeyDown = (e) => {
-  if (e.keyCode == 13) {
-    onBlurInput()
+  const enterKeyDownFolder = (e) => {
+    if (e.keyCode == 13) {
+      onBlurInputFolder()
+    }
   }
-}
-const enterKeyDownFolder = (e) => {
-  if (e.keyCode == 13) {
-    onBlurInputFolder()
+
+  const handlechange = (el) => {
+    setGraph(false)
+    setSelected(el)
   }
-}
 
-const handlechange = (el) => {
-  setGraph(false)
-  setSelected(el)
-}
+  const deleteElement = (el) => {
+    setArrDoc(arrDoc.filter(elem => elem.name !== el.name))
 
-const deleteElement = (el) => {
-  setArrDoc(arrDoc.filter(elem => elem.name !== el.name))
-
-  setSelected({})
-}
-const deleteFolder = (el) => {
-  setArrDoc(arrDoc.filter(elem => elem.folderName !== el.folderName))
-  setSelectedFolder('')
-}
-
-const reloadStorage = () => {
-  getStorage()
-}
-const selectedFolderFun = () => {
-  if (selectedFolder) {
-    setSelectedFolder('')
+    setSelected({})
   }
-}
+  const deleteFolder = (el) => {
+    setArrDoc(arrDoc.filter(elem => elem.folderName !== el.folderName))
+    setSelectedFolder({})
+  }
 
-return (
-  <div id="mySidenav" className={opened ? "MenuOpen" : "MenuClose"} >
-    <div className='navigateBlockWrapper'>
-      <div className='navigateBlock'>
-        <div title='Создать файл' onClick={() => setCreate(true)}>
-          <GlobalSVGSelector type="add_file" />
+  const reloadStorage = () => {
+    getStorage()
+  }
+  const selectedFolderFun = () => {
+    
+    if (Object.entries(selectedFolder).length>0) {
+      setSelectedFolder({})
+    }
+  }
+
+  return (
+    <div id="mySidenav" className={opened ? "MenuOpen" : "MenuClose"} >
+      <div className='navigateBlockWrapper'>
+        <div className='navigateBlock'>
+          <div title='Создать файл' onClick={() => setCreate(true)}>
+            <GlobalSVGSelector type="add_file" />
+          </div>
+          <div title='Создать папку' className='add_folder' onClick={() => setCreateFolder(true)}>
+            <GlobalSVGSelector type="add_folder" />
+          </div>
+          <div title='Обновить' onClick={reloadStorage}>
+            <GlobalSVGSelector type="reload" />
+          </div>
+          <div title='Построить дерево' onClick={treeParse}>
+            <GlobalSVGSelector type="tree" />
+          </div>
         </div>
-        <div title='Создать папку' onClick={() => setCreateFolder(true)}>
-          <GlobalSVGSelector type="add_folder" />
-        </div>
-        <div title='Обновить' onClick={reloadStorage}>
-          <GlobalSVGSelector type="reload" />
-        </div>
-        <div title='Построить дерево' onClick={treeParse}>
-          <GlobalSVGSelector type="tree" />
-        </div>
+
+        <button onClick={() => setOpened(prev => !prev)} className={opened ? "closeButton" : "openButton"}>
+          <GlobalSVGSelector type="arrow" />
+        </button>
+
       </div>
-
-      <button onClick={() => setOpened(prev => !prev)} className={opened ? "closeButton" : "openButton"}>
-        <GlobalSVGSelector type="arrow" />
-      </button>
-
-    </div>
-    <div className="textBlock" onClick={selectedFolderFun}>
-      {create
-        ? <>
-          <input type="text" autoFocus onBlur={onBlurInput} value={valueInput} onChange={onChangeInput} onKeyDown={enterKeyDown} />
-          {arrDoc.map(el => <ListElement el={el}
-            handlechange={handlechange}
-            deleteElement={deleteElement}
-            deleteFolder={deleteFolder}
-            setSelectedFolder={setSelectedFolder}
-            selectedFolder={selectedFolder} />)}
-        </>
-        : <>
-          {arrDoc.map(el => <ListElement el={el}
-            handlechange={handlechange}
-            deleteElement={deleteElement}
-            deleteFolder={deleteFolder}
-            setSelectedFolder={setSelectedFolder}
-            selectedFolder={selectedFolder} />)}
-        </>
-      }
-      {
-        createFolder
+      <div className="textBlock" onClick={selectedFolderFun}>
+        {create
           ? <>
-            <input type="text" autoFocus onBlur={onBlurInputFolder} value={valueInput} onChange={onChangeInput} onKeyDown={enterKeyDownFolder} />
-            {arrDoc.map(el => {
-              <ListElement el={el}
-                handlechange={handlechange}
-                deleteElement={deleteElement}
-                deleteFolder={deleteFolder}
-                setSelectedFolder={setSelectedFolder}
-                selectedFolder={selectedFolder} />
-            })
-            }
+            <input type="text" autoFocus onBlur={onBlurInput} value={valueInput} onChange={onChangeInput} onKeyDown={enterKeyDown} />
+            {arrDoc.map(el => <ListElement el={el}
+              handlechange={handlechange}
+              deleteElement={deleteElement}
+              deleteFolder={deleteFolder}
+              setSelectedFolder={setSelectedFolder}
+              selectedFolder={selectedFolder} />)}
           </>
-          : <></>
-      }
+          : <>
+            {arrDoc.map(el => <ListElement el={el}
+              handlechange={handlechange}
+              deleteElement={deleteElement}
+              deleteFolder={deleteFolder}
+              setSelectedFolder={setSelectedFolder}
+              selectedFolder={selectedFolder} />)}
+          </>
+        }
+        {
+          createFolder
+            ? <>
+              <input type="text" autoFocus onBlur={onBlurInputFolder} value={valueInput} onChange={onChangeInput} onKeyDown={enterKeyDownFolder} />
+              {arrDoc.map(el => {
+                <ListElement el={el}
+                  handlechange={handlechange}
+                  deleteElement={deleteElement}
+                  deleteFolder={deleteFolder}
+                  setSelectedFolder={setSelectedFolder}
+                  selectedFolder={selectedFolder} />
+              })
+              }
+            </>
+            : <></>
+        }
+      </div>
     </div>
-  </div>
-)
+  )
 }
 
 export default MenuComponent

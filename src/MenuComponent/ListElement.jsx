@@ -13,7 +13,10 @@ const ListElement = ({ el, handlechange, deleteElement, selectedFolder, setSelec
     if ('folderName' in el) {
         return (<>
             <div className='elementWrapper'>
-                <div className={selectedFolder == el.folderName ? 'selectElementFolder' : 'elementFolder'} onClick={() => { setSelectedFolder(el.folderName) }}>{el.folderName}</div>
+                <div className={selectedFolder.folderName == el.folderName ? 'selectElementFolder' : 'elementFolder'}
+                    onClick={() => { setSelectedFolder(el) }}>
+                    {el.folderName}
+                </div>
                 <div className='close' onClick={() => deleteFolder(el)}>
                     <GlobalSVGSelector type={"close"} />
                 </div>
@@ -24,7 +27,7 @@ const ListElement = ({ el, handlechange, deleteElement, selectedFolder, setSelec
                 deleteElement={deleteElement}
                 selectedFolder={selectedFolder}
                 setSelectedFolder={setSelectedFolder}
-                deleteFolder={deleteFolder} />) 
+                deleteFolder={deleteFolder} />)
                 : <></>}
         </>
         )

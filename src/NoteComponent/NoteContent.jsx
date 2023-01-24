@@ -3,7 +3,7 @@ import GlobalSVGSelector from '../assets/GlobalSVGSelector'
 import "./NoteContent.scss"
 import ListComponent from './ListComponent'
 
-const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
+const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc, selectedFolder }) => {
 
     const [valueInput, setValueInput] = useState('')
     const [filterArr, setFilterArr] = useState(arrDoc.filter(e => e.name != selected.name))
@@ -18,7 +18,12 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc }) => {
 
         setOpenedListLeft(true)
         setValueInput(e.target.value)
-        setFilterArr(arrDoc.filter(e => e.name != selected.name && e.name.toLowerCase().indexOf(valueInput.toLowerCase()) !== -1))
+        if(Object.entries(selectedFolder).length>0){
+            setFilterArr(arrDoc.filter(e => e.folderName==selectedFolder.folderName))
+        } else {
+            setFilterArr(arrDoc.filter(e => e.name != selected.name && e.name.toLowerCase().indexOf(valueInput.toLowerCase()) !== -1))
+        }
+        
     }
 
     const changeText = (e) => {
