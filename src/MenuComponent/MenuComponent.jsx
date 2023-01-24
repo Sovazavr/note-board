@@ -17,11 +17,13 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
   const [grouping, setGrouping] = useState({})
 
   useEffect(() => {
-    setGrouping(d3.group(arrDoc, d => d.parent.name))
+    const filterDoc=arrDoc.filter(e=>e.type=='file')
+    setGrouping(d3.group(filterDoc, d => d.parent.name))
   }, [arrDoc]);
 
   const rootFind = () => {
-    setGrouping(d3.group(arrDoc, d => d.parent.name))
+    const filterDoc=arrDoc.filter(e=>e.type=='file')
+    setGrouping(d3.group(filterDoc, d => d.parent.name))
     let s = []
     let d = {}
     for (let obj of grouping.keys()) {
