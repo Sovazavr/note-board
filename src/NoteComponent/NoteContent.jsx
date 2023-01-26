@@ -18,17 +18,16 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc, selectedFolder 
 
         setOpenedListLeft(true)
         setValueInput(e.target.value)
-        if(Object.entries(selectedFolder).length>0){
-            setFilterArr(arrDoc.filter(e => e.folderName==selectedFolder.folderName))
+        if (Object.entries(selectedFolder).length > 0) {
+            setFilterArr(arrDoc.filter(e => e.folderName == selectedFolder.folderName))
         } else {
             setFilterArr(arrDoc.filter(e => e.name != selected.name && e.name.toLowerCase().indexOf(valueInput.toLowerCase()) !== -1))
         }
-        
+
     }
 
     const changeText = (e) => {
-        setSelected({ name: selected.name, content: e.target.value })
-
+        setSelected({ name: selected.name, content: e.target.value, parent: { name: '' } })
     }
 
 
@@ -98,13 +97,19 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc, selectedFolder 
 
                 </div>
 
-                {openedListLeft ? <div className='listWrapper'> {arrDoc.filter(e => e.name != selected.name).map(e => {
-                    return (
-                        <div className='listElement' onClick={() => handleElement(e)}>
-                            {e.name}
-                        </div>
-                    )
-                })}</div>
+                {openedListLeft ? <div className='listWrapper'>
+                    <div className='listElementRoot' onClick={() => handleElement('Root')}>
+                        Корень
+                    </div>
+                    {arrDoc.filter(e => e.name != selected.name).map(e => {
+                        return (
+                            <div className='listElement' onClick={() => handleElement(e)}>
+                                {e.name}
+                            </div>
+                        )
+                    })
+                    }
+                </div>
                     // < ListComponent arrDoc={filterArr} setParent={setParent} setOpenedListLeft={setOpenedListLeft} /> 
                     : <></>
                 }

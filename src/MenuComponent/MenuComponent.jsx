@@ -12,30 +12,49 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
 
   const [opened, setOpened] = useState(false)
   const [valueInput, setValueInput] = useState("")
-  const [root, setRoot] = useState('')
- 
+  const [count, setCount] = useState(0)
+
   const [grouping, setGrouping] = useState({})
 
   useEffect(() => {
 
-     if (Object.entries(selectedFolder).length>0) {
-       const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
-       if (filterDoc[0].file.length > 0) {
-         setGrouping(d3.group(filterDoc.file, d => d.parent.name))
-       }
-       console.log('filterDoc ',filterDoc);
-     }
-     else {
-       const filterDoc = arrDoc.filter(e => e.type == 'file')
-       setGrouping(d3.group(filterDoc, d => d.parent.name))
-     }
+    if (Object.entries(selectedFolder).length > 0) {
+      const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
+      if (filterDoc[0].file.length > 0) {
+        setGrouping(d3.group(filterDoc.file, d => d.parent.name))
+      }
+      console.log('filterDoc ', filterDoc);
+    }
+    else {
+      const filterDoc = arrDoc.filter(e => e.type == 'file')
+      setGrouping(d3.group(filterDoc, d => d.parent.name))
+    }
 
   }
 
     , [arrDoc]);
 
+  useEffect(() => {
+    if (valueInput) {
+      arrDoc.forEach(e => {
+        const str = e.name.split(" (")
+        if (str.length > 1) {
+          if (str[0] == valueInput && str[1].indexOf(")") !== -1) {
+            setCount(prev => prev + 1)
+          }
+        } else {
+          if (e.name == valueInput) {
+            setCount(prev => prev + 1)
+          }
+        }
+
+
+      })
+    }
+  }, [arrDoc, valueInput])
+
   const rootFind = () => {
-    if (Object.entries(selectedFolder).length>0) {
+    if (Object.entries(selectedFolder).length > 0) {
       const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
       if (filterDoc[0].file.length > 0) {
         setGrouping(d3.group(filterDoc.file, d => d.parent.name))
@@ -110,12 +129,12 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
 
   const onChangeInput = (e) => {
     setValueInput(e.target.value)
-    
+
   }
   const onBlurInput = () => {
     setCreate(false)
     if (valueInput) {
-      if (Object.entries(selectedFolder).length>0) {
+      if (Object.entries(selectedFolder).length > 0) {
         arrDoc.map(el => {
           if (el.folderName === selectedFolder.folderName) {
             el.file.push({ name: valueInput.trim(), content: "" })
@@ -124,7 +143,22 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
         setArrDoc(arrDoc)
       }
       else {
-        setArrDoc([...arrDoc, { name: valueInput, content: "", status: 'file', parent: { name: '' }, children: [] }])
+        
+
+
+
+        if (count > 0) {
+          setArrDoc([...arrDoc, { name: valueInput + ' (' + count + ')', content: "", status: 'file', parent: { name: '' }, children: [] }])
+          // alert("Имя должно быть уникальным")
+          console.log(count);
+          setCount(0)
+        }
+        else {
+          setArrDoc([...arrDoc, { name: valueInput, content: "", status: 'file', parent: { name: '' }, children: [] }])
+        }
+
+
+
       }
 
       setValueInput('')
@@ -170,8 +204,8 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
     getStorage()
   }
   const selectedFolderFun = () => {
-    
-    if (Object.entries(selectedFolder).length>0) {
+
+    if (Object.entries(selectedFolder).length > 0) {
       setSelectedFolder({})
     }
   }

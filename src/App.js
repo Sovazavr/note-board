@@ -56,7 +56,12 @@ function App() {
         setArrDoc={setArrDoc} />
 
       <div className="Block" >
-        {Object.entries(selected).length === 0 ? <></> : <NoteContent selectedFolder={selectedFolder} arrDoc={arrDoc} setArrDoc={setArrDoc} setSelected={setSelected} selected={selected} />}
+        {Object.entries(selected).length === 0 ? <></> : <NoteContent
+          selectedFolder={selectedFolder}
+          arrDoc={arrDoc}
+          setArrDoc={setArrDoc}
+          setSelected={setSelected}
+          selected={selected} />}
         {graph ? <Tree data={data}
           svgProps={{
             className: 'custom'
