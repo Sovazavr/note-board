@@ -8,9 +8,10 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc, selectedFolder 
     const [valueInput, setValueInput] = useState('')
     const [filterArr, setFilterArr] = useState(arrDoc.filter(e => e.name != selected.name))
     const [openedListLeft, setOpenedListLeft] = useState(false)
-
+    const [resultRootFind, setResultRootFind] = useState(true)
 
     useEffect(() => {
+        setResultRootFind(arrDoc.find((e) => e.parent.name === 'Root'))
         setFilterArr(arrDoc.filter(e => e.name != selected.name))
     }, [arrDoc]);
 
@@ -54,7 +55,7 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc, selectedFolder 
         }
 
         setArrDoc(arrDoc)
-        console.log('ARR: ', arrDoc);
+
     }
     const closeText = () => {
 
@@ -98,9 +99,12 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc, selectedFolder 
                 </div>
 
                 {openedListLeft ? <div className='listWrapper'>
-                    <div className='listElementRoot' onClick={() => handleElement('Root')}>
-                        Корень
-                    </div>
+                    {!resultRootFind
+                        ? <div className='listElementRoot' onClick={() => handleElement('Root')}>
+                            Корень
+                        </div>
+                        : <></>}
+
                     {arrDoc.filter(e => e.name != selected.name).map(e => {
                         return (
                             <div className='listElement' onClick={() => handleElement(e)}>

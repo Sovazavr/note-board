@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './App.scss';
 import MenuComponent from "./MenuComponent/MenuComponent";
 import NoteContent from './NoteComponent/NoteContent';
-import { Tree } from 'react-tree-graph';
+import { AnimatedTree, Tree } from 'react-tree-graph';
 
 function App() {
   const [selected, setSelected] = useState({})
@@ -11,6 +11,7 @@ function App() {
   const [data, setData] = useState({})
   const [graph, setGraph] = useState(false)
   const [selectedFolder, setSelectedFolder] = useState({})
+
 
   let firstRender = useRef(true)
   useLayoutEffect(() => {
@@ -62,7 +63,7 @@ function App() {
           setArrDoc={setArrDoc}
           setSelected={setSelected}
           selected={selected} />}
-        {graph ? <Tree data={data}
+        {graph ? <AnimatedTree data={data}
           svgProps={{
             className: 'custom'
           }}

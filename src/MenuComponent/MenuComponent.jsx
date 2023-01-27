@@ -18,17 +18,17 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
 
   useEffect(() => {
 
-    if (Object.entries(selectedFolder).length > 0) {
-      const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
-      if (filterDoc[0].file.length > 0) {
-        setGrouping(d3.group(filterDoc.file, d => d.parent.name))
-      }
-      console.log('filterDoc ', filterDoc);
-    }
-    else {
-      const filterDoc = arrDoc.filter(e => e.type == 'file')
-      setGrouping(d3.group(filterDoc, d => d.parent.name))
-    }
+    // if (Object.entries(selectedFolder).length > 0) {
+    //   const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
+    //   if (filterDoc[0].file.length > 0) {
+    //     setGrouping(d3.group(filterDoc.file, d => d.parent.name))
+    //   }
+    //   console.log('filterDoc ', filterDoc);
+    // }
+    // else {
+    const filterDoc = arrDoc.filter(e => e.status == 'file')
+    setGrouping(d3.group(filterDoc, d => d.parent.name))
+    // }
 
   }
 
@@ -53,23 +53,28 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
     }
   }, [arrDoc, valueInput])
 
+  useEffect(() => { console.log("GRP: ", grouping); }, [grouping])
+
+
   const rootFind = () => {
-    if (Object.entries(selectedFolder).length > 0) {
-      const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
-      if (filterDoc[0].file.length > 0) {
-        setGrouping(d3.group(filterDoc.file, d => d.parent.name))
-      }
-    }
-    else {
-      const filterDoc = arrDoc.filter(e => e.type == 'file')
-      setGrouping(d3.group(filterDoc, d => d.parent.name))
-    }
+    // if (Object.entries(selectedFolder).length > 0) {
+    //   const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
+    //   if (filterDoc[0].file.length > 0) {
+    //     setGrouping(d3.group(filterDoc.file, d => d.parent.name))
+    //   }
+    // }
+    // else {
+    const filterDoc = arrDoc.filter(e => e.status == 'file')
+    setGrouping(d3.group(filterDoc, d => d.parent.name))
+    // }
     // const filterDoc = arrDoc.filter(e => e.type == 'file')
     // setGrouping(d3.group(filterDoc, d => d.parent.name))
     let s = []
     let d = {}
     for (let obj of grouping.keys()) {
-      if (obj == "Root") {
+
+      if (obj == 'Root') {
+
         d.name = grouping.get(obj)[0].name
 
         for (let i = 0; i < grouping.get(obj).length; i++) {
@@ -119,11 +124,8 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
 
   const treeParse = () => {
     setSelected({})
-    setGraph(true)
-
     setData(hierarchyCreate(rootFind()))
-    console.log('DATA: ', data);
-
+    setGraph(true)
   }
 
 
@@ -143,7 +145,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
         setArrDoc(arrDoc)
       }
       else {
-        
+
 
 
 
@@ -188,6 +190,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
   const handlechange = (el) => {
     setGraph(false)
     setSelected(el)
+    setData({})
   }
 
   const deleteElement = (el) => {

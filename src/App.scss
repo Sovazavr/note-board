@@ -10,16 +10,24 @@
   background-color: #40384a;
   max-height: 95vh;
 }
+
 svg.custom .node circle {
   fill: #f3f3ff;
   stroke: #f97e72;
   stroke-width: 1.5px;
 }
 svg.custom .node text {
-  font-size: 11px;
+  font-size: 14px;
   background-color: #444;
   fill: #f4f4f4;
+  
   text-shadow: 0 1px 4px black;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
 }
 
 svg.custom .node {
