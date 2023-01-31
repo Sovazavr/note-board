@@ -91,7 +91,7 @@ const NoteContent = ({ arrDoc, selected, setSelected, setArrDoc, selectedFolder 
             </div>
             <div className='linkBlock' >
                 <div className='leftLink'>
-                    <input type='text' value={selected.parent.name ? selected.parent.name : valueInput} onChange={handleInput} onBlur={() => setOpenedListLeft(false)} />
+                    <input placeholder="Предок заметки" type='text' value={selected.parent.name ? selected.parent.name : valueInput} onChange={handleInput} onBlur={() => setOpenedListLeft(false)} />
                     <div className={openedListLeft ? 'arrowVerticalOpen' : 'arrowVertical'} onClick={() => setOpenedListLeft((prev) => !prev)}>
                         <GlobalSVGSelector type={"arrowVertical"} />
                     </div>

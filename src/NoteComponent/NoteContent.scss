@@ -11,6 +11,10 @@
             border: none;
             outline: none;
         }
+        &::placeholder {
+            color: rgba($color: #a7a4a4, $alpha: 0.7);
+        }
+
         border-radius: 5px;
         padding: 3px;
         color: #a7a4a4;
@@ -50,7 +54,7 @@
     margin-bottom: 2px;
     padding: 5px;
 }
-.listElementRoot{
+.listElementRoot {
     @extend .listElement;
     color: red;
 }
