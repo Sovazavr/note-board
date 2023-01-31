@@ -16,23 +16,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
 
   const [grouping, setGrouping] = useState({})
 
-  useEffect(() => {
-
-    // if (Object.entries(selectedFolder).length > 0) {
-    //   const filterDoc = arrDoc.filter(e => e.folderName == selectedFolder.folderName)
-    //   if (filterDoc[0].file.length > 0) {
-    //     setGrouping(d3.group(filterDoc.file, d => d.parent.name))
-    //   }
-    //   console.log('filterDoc ', filterDoc);
-    // }
-    // else {
-    const filterDoc = arrDoc.filter(e => e.status == 'file')
-    setGrouping(d3.group(filterDoc, d => d.parent.name))
-    // }
-
-  }
-
-    , [arrDoc]);
+  
 
   useEffect(() => {
     if (valueInput) {
@@ -53,7 +37,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
     }
   }, [arrDoc, valueInput])
 
-  useEffect(() => { console.log("GRP: ", grouping); }, [grouping])
+
 
 
   const rootFind = () => {
@@ -79,10 +63,13 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
 
         for (let i = 0; i < grouping.get(obj).length; i++) {
           for (let j = 0; j < grouping.get(obj)[i].children.length; j++) {
-            s.push({ name: grouping.get(obj)[i].children[j].name })
+            s.push({ name: grouping.get(obj)[i].children[j].name, textProps: { x: -25, y: 25 } })
           }
           d.children = s
+
         }
+        d.textProps = { x: -25, y: 25 }
+
       }
 
     }
@@ -97,7 +84,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
         for (let key of grouping.keys()) {
           if (key == obj.children[i].name) {
             for (let j = 0; j < grouping.get(key).length; j++) {
-              s.push({ name: grouping.get(key)[j].name });
+              s.push({ name: grouping.get(key)[j].name, textProps: { x: -25, y: 25 } });
             }
 
             obj.children[i].children = s;
@@ -112,7 +99,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
       for (let key of grouping.keys()) {
         if (obj.name == key) {
           for (let i = 0; i < grouping.get(key).length; i++) {
-            d.push({ name: grouping.get(key)[i].name });
+            d.push({ name: grouping.get(key)[i].name, textProps: { x: -25, y: 25 } });
           }
           obj.children = d;
         }
@@ -124,8 +111,9 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
 
   const treeParse = () => {
     setSelected({})
-    setData(hierarchyCreate(rootFind()))
     setGraph(true)
+    setData(hierarchyCreate(rootFind()))
+
   }
 
 
@@ -213,11 +201,16 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
     }
   }
 
+  const createFile=()=>{
+    setCreate(true)
+    setGraph(false)
+  }
+
   return (
     <div id="mySidenav" className={opened ? "MenuOpen" : "MenuClose"} >
       <div className='navigateBlockWrapper'>
         <div className='navigateBlock'>
-          <div title='Создать файл' onClick={() => setCreate(true)}>
+          <div title='Создать файл' onClick={createFile}>
             <GlobalSVGSelector type="add_file" />
           </div>
           <div title='Создать папку' className='add_folder' onClick={() => setCreateFolder(true)}>

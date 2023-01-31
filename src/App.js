@@ -64,6 +64,8 @@ function App() {
           setSelected={setSelected}
           selected={selected} />}
         {graph ? <AnimatedTree data={data}
+          
+          margins={{ top: 20, bottom: 10, left: 40, right: 40 }}
           svgProps={{
             className: 'custom'
           }}

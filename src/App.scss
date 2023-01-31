@@ -14,7 +14,8 @@
 svg.custom .node circle {
   fill: #f3f3ff;
   stroke: #f97e72;
-  stroke-width: 1.5px;
+  stroke-width: 2px;
+  r: 8;
 }
 svg.custom .node text {
   font-size: 14px;
