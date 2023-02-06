@@ -11,7 +11,7 @@ function App() {
   const [data, setData] = useState({})
   const [graph, setGraph] = useState(false)
   const [selectedFolder, setSelectedFolder] = useState({})
-
+  const [size, setSize] = useState({ height: 0, width: 0, rotate: 'rotate(0)' })
 
   let firstRender = useRef(true)
   useLayoutEffect(() => {
@@ -26,6 +26,17 @@ function App() {
     }
   }, [arrDoc, selected])
 
+  useEffect(() => {
+    const widthS = document.documentElement.clientWidth * 0.8
+    const heightS = document.documentElement.clientHeight * 0.8
+    if (widthS <= 1000) {
+      setSize({ height: widthS*0.8, width: heightS, rotate: 'rotate(90)' })
+    } else {
+      setSize({ height: heightS, width: widthS, rotate: 'rotate(0)' })
+    }
+
+
+  }, [])
 
 
 
@@ -40,6 +51,12 @@ function App() {
     }
   }
 
+  const handleClick = (event, node) => {
+    setGraph(false)
+    setSelected(arrDoc.filter(e=>e.name===node)[0])
+    
+
+  }
 
 
   return (
@@ -64,13 +81,16 @@ function App() {
           setSelected={setSelected}
           selected={selected} />}
         {graph ? <AnimatedTree data={data}
-          
+          gProps={{
+            onClick: handleClick
+          }}
           margins={{ top: 20, bottom: 10, left: 40, right: 40 }}
           svgProps={{
-            className: 'custom'
+            className: 'custom',
+            transform: size.rotate
           }}
-          height={500}
-          width={1200} />
+          height={size.height}
+          width={size.width} />
           : <></>
         }
       </div>

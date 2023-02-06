@@ -16,7 +16,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
 
   const [grouping, setGrouping] = useState({})
 
-  
+
 
   useEffect(() => {
     if (valueInput) {
@@ -110,6 +110,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
   }
 
   const treeParse = () => {
+    setData({})
     setSelected({})
     setGraph(true)
     setData(hierarchyCreate(rootFind()))
@@ -182,7 +183,34 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
   }
 
   const deleteElement = (el) => {
+
+    if (el.parent.name == 'Root' && el.children.length == 1) {
+      const newRoot = el.children[0]
+      console.log(newRoot);
+      arrDoc.map(e => {
+        if (e.name == newRoot.name) {
+          e.parent.name = 'Root'
+        }
+      })
+    } else if (el.parent.name == 'Root' && el.children.length > 1) {
+      setArrDoc([...arrDoc, { name: 'Удаленный корень', content: "Корень был удален и нельзя однозначно установить новый", status: 'file', parent: { name: 'Root' }, children: el.children }])
+    } else if (el.parent.name !== 'Root') {
+      const newParent = el.parent.name
+      const newChildren = el.children
+      arrDoc.map(e => {
+        for (let i = 0; i < newChildren.length; i++) {
+          if (e.name == newChildren[i].name) {
+            e.parent.name = newParent
+          }
+        }
+        if (e.name == newParent) {
+          e.children = e.children.filter(ch => ch.name !== el.name)
+          e.children.concat(newChildren)
+        }
+      })
+    }
     setArrDoc(arrDoc.filter(elem => elem.name !== el.name))
+    console.log('delDoc: ', arrDoc);
 
     setSelected({})
   }
@@ -201,7 +229,7 @@ const MenuComponent = ({ setStorage, getStorage, setSelected, arrDoc, setArrDoc,
     }
   }
 
-  const createFile=()=>{
+  const createFile = () => {
     setCreate(true)
     setGraph(false)
   }
