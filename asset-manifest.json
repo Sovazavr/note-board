@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/note-board/static/css/main.c183d88f.css",
+    "main.js": "/note-board/static/js/main.f7e1cf9d.js",
+    "static/js/787.dba9ac99.chunk.js": "/note-board/static/js/787.dba9ac99.chunk.js",
+    "index.html": "/note-board/index.html",
+    "main.c183d88f.css.map": "/note-board/static/css/main.c183d88f.css.map",
+    "main.f7e1cf9d.js.map": "/note-board/static/js/main.f7e1cf9d.js.map",
+    "787.dba9ac99.chunk.js.map": "/note-board/static/js/787.dba9ac99.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c183d88f.css",
+    "static/js/main.f7e1cf9d.js"
+  ]
+}
